@@ -10,6 +10,14 @@ const socket = io();
 
 socket.emit('joinRoom', { username, room });
 
+socket.on('roomUsers', ({ room, users }) => {
+  console.log(room, users)
+  document.querySelector('#room-name').innerText0 = room;
+  document.querySelector('#users').innerHTML = users.map(({ username }) => (
+    `<li class="name">${username}</li>`
+  )).join('');
+});
+
 // Listening for events
 socket.on('message', (data) => {
   handleMessage(data);

@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/message');
-const { getCurrentUser, userJoin } = require('./utils/users');
+const { getCurrentUser, userJoin, userLeave, getRoomUsers } = require('./utils/users');
 
 // Config
 const app = express();
@@ -21,17 +21,29 @@ io.on('connection', (socket) => {
     const user = userJoin(socket.id, username, room);
     socket.join(user.room);
     socket.broadcast.to(user.room).emit('message', formatMessage('Chat Bot', `${username} has joined the chat.`));
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
   });
 
   socket.emit('message', formatMessage('Chat Bot', 'Welcome to Chat App'));
 
   socket.on('disconnect', () => {
-    io.emit('message', formatMessage('Chat Bot', 'A user has left'))
+    const user = userLeave(socket.id);
+    if (user) {
+      io.to(user.room).emit('message', formatMessage('Chat Bot', `${user.username} has left the chat.`))
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+    }
   });
 
   // Listen for events
   socket.on('chatMessage', (message) => {
-    io.emit('message', formatMessage('User', message));
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit('message', formatMessage(user.username, message));
   });
 
 });
