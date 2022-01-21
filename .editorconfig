@@ -1,0 +1,10 @@
+# Download the EditorConfig for VS Code extension to use settings
+# See https://EditorConfig.org for more information
+
+root = true
+
+[*]
+end_of_line = lf
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
