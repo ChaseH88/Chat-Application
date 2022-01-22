@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
-const formatMessage = require('./utils/message');
+const { formatMessage, formatTypingMessage } = require('./utils/message');
 const { getCurrentUser, userJoin, userLeave, getRoomUsers } = require('./utils/users');
 
 // Config
@@ -44,6 +44,18 @@ io.on('connection', (socket) => {
   socket.on('chatMessage', (message) => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit('message', formatMessage(user.username, message));
+  });
+
+  socket.on('start-typing', () => {
+    const user = getCurrentUser(socket.id);
+    if (!user) return;
+    io.to(user.room).emit('start-typing', formatTypingMessage(user.username, true, socket.id));
+  });
+
+  socket.on('stop-typing', () => {
+    const user = getCurrentUser(socket.id);
+    if (!user) return;
+    io.to(user.room).emit('stop-typing', formatTypingMessage(user.username, false, socket.id));
   });
 
 });

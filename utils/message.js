@@ -6,4 +6,13 @@ const formatMessage = (username, text) => ({
   time: moment().format('h:mm a')
 });
 
-module.exports = formatMessage;
+const formatTypingMessage = (username, isTyping, id) => ({
+  id,
+  isTyping,
+  text: isTyping ? `${username} is typing...` : ''
+});
+
+module.exports = {
+  formatMessage,
+  formatTypingMessage
+};
