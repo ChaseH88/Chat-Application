@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "heroku:ssh": "heroku run bash -a chase-chat-app",
+    "heroku:logs": "heroku logs --tail -a chase-chat-app"
   },
   "keywords": [],
   "author": "",

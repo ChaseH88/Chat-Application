@@ -9,7 +9,7 @@ const { getCurrentUser, userJoin, userLeave, getRoomUsers } = require('./utils/u
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
