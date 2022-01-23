@@ -1,3 +1,17 @@
 {
+  "html.validate.scripts": false,
+  "files.exclude": {
+    ".git": false,
+    ".editorconfig": true,
+    ".gitignore": true,
+    "node_modules": true,
+    ".next": true,
+  },
+  "workbench.colorCustomizations": {
+    "titleBar.activeForeground": "#f3f3f3",
+    "titleBar.inactiveForeground": "#f3f3f3",
+    "titleBar.activeBackground": "#091A32",
+    "titleBar.inactiveBackground": "#091A32"
+  },
   "editor.formatOnSave": true
 }
